@@ -5,9 +5,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -15,7 +13,6 @@ public class Login extends ActionBarActivity {
 
     private EditText  username=null;
     private EditText  password=null;
-    //private Button login;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,7 +21,6 @@ public class Login extends ActionBarActivity {
 
         username = (EditText)findViewById(R.id.editText1);
         password = (EditText)findViewById(R.id.editText2);
-        //login = (Button)findViewById(R.id.button1);
     }
 
 
