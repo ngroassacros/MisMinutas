@@ -51,6 +51,7 @@ public class Login extends ActionBarActivity {
                 password.getText().toString().equals("admin")) {
             Toast.makeText(getApplicationContext(), "Redirecting...",
                     Toast.LENGTH_SHORT).show();
+
         }
         else {
             Toast.makeText(getApplicationContext(), "Wrong Credentials",
