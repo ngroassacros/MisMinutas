@@ -7,6 +7,6 @@
     <string name="username">Usuario:</string>
     <string name="password">Password:</string>
     <string name="Login">Iniciar Sesión</string>
-
+    <string name="title_activity_minutas">Minutas</string>
 
 </resources>
