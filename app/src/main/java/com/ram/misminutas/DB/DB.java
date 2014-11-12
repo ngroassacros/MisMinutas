@@ -16,7 +16,7 @@ public class DB extends SQLiteOpenHelper {
     // CONSTRUCTOR de la clase
     public DB(Context context) {
         super(context, NOMBRE_BASEDATOS, null, VERSION_BASEDATOS);
-        
+
     }
 
     // Sentencia SQL para la creación de una tabla
