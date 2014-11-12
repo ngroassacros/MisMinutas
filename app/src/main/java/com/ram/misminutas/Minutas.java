@@ -2,12 +2,17 @@ package com.ram.misminutas;
 
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.microsoft.windowsazure.mobileservices.*;
+import com.ram.misminutas.Clases.Proyecto;
+import com.ram.misminutas.Clases.Usuario;
+import com.ram.misminutas.DB.DB;
 
-import java.net.MalformedURLException;
+import java.util.Date;
+import java.util.List;
 
 
 public class Minutas extends ActionBarActivity {
@@ -22,19 +27,31 @@ public class Minutas extends ActionBarActivity {
         String nombre = getIntent().getStringExtra("NombreUsuario");
         this.setTitle(nombre);
 
-        try {
-            clienteServicio = new MobileServiceClient("https://minuta.azure-mobile.net/", "QrKYYqtZLUXlKEafdAgkwFfvOiINOt32", this);
+        DB bd = new DB(getBaseContext());
 
-            //mAuthService = myApp.getAuthService();
-            clienteServicio.login("ZjiPzvGEnVYJmWHXhSvNnYKkmpjPIF30", new UserAuthenticationCallback() {
-                @Override
-                public void onCompleted(MobileServiceUser mobileServiceUser, Exception e, ServiceFilterResponse serviceFilterResponse) {
+        bd.InicializarBaseDeDatos();
 
-                }
-            });
+        Usuario usuario = new Usuario();
+        usuario.Nombre = "Ramses Santos";
+        usuario.Email = "ranabdiel";
+        usuario.Telefono = 12;
+        bd.InsertarUsuario(usuario);
 
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
+        List<Usuario> usuarios = bd.ObtenerUsuarios();
+        for (Usuario user : usuarios){
+            Log.i("Usuarios: ", user.Nombre + " - " + user.Id);
+        }
+
+        Proyecto proy = new Proyecto();
+        proy.Nombre = "Proyecto 1";
+        proy.Descripcion = "Este proyecto se trata de XXX";
+        proy.UsuarioCreador = 1;
+        proy.FechaCreacion = new Date();
+        bd.InsertarProyecto(proy);
+
+        List<Proyecto> proyectos = bd.ObtenerProyectos();
+        for (Proyecto proyecto : proyectos){
+            Log.i("Proyectos: ", proyecto.Nombre + " - " + proyecto.Id);
         }
     }
 
