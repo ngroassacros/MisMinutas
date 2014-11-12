@@ -3,7 +3,7 @@ package com.ram.misminutas.Clases;
 /**
  * Created by ramses on 10/11/14.
  */
-public class Usuarios
+public class Usuario
 {
     @com.google.gson.annotations.SerializedName("Id")
     public int Id;
