@@ -5,13 +5,37 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.microsoft.windowsazure.mobileservices.*;
+
+import java.net.MalformedURLException;
+
 
 public class Minutas extends ActionBarActivity {
+
+    private MobileServiceClient clienteServicio;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_minutas);
+
+        String nombre = getIntent().getStringExtra("NombreUsuario");
+        this.setTitle(nombre);
+
+        try {
+            clienteServicio = new MobileServiceClient("https://minuta.azure-mobile.net/", "QrKYYqtZLUXlKEafdAgkwFfvOiINOt32", this);
+
+            //mAuthService = myApp.getAuthService();
+            clienteServicio.login("ZjiPzvGEnVYJmWHXhSvNnYKkmpjPIF30", new UserAuthenticationCallback() {
+                @Override
+                public void onCompleted(MobileServiceUser mobileServiceUser, Exception e, ServiceFilterResponse serviceFilterResponse) {
+
+                }
+            });
+
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
     }
 
 
