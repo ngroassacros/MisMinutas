@@ -11,5 +11,6 @@ public class Minuta {
     public String Lugar;
     public String Cliente;
     public Date Fecha;
-    public Usuario Usuario;
+    public int IdUsuario;
+    public int IdProyecto;
 }
