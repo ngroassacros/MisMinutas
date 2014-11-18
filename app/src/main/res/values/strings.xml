@@ -8,5 +8,6 @@
     <string name="password">Password:</string>
     <string name="Login">Iniciar Sesión</string>
     <string name="title_activity_minutas">Minutas</string>
+    <string name="title_activity_menu">Menu</string>
 
 </resources>

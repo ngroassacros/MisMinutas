@@ -1,6 +1,6 @@
 package com.ram.misminutas;
 
-import android.support.v7.app.ActionBarActivity;
+import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -16,7 +16,7 @@ import java.util.Date;
 import java.util.List;
 
 
-public class Minutas extends ActionBarActivity {
+public class Minutas extends Activity {
 
     private MobileServiceClient clienteServicio;
 
@@ -35,7 +35,7 @@ public class Minutas extends ActionBarActivity {
         Usuario usuario = new Usuario();
         usuario.Nombre = "Ramses Santos";
         usuario.Email = "ranabdiel";
-        usuario.Telefono = 12;
+        usuario.Telefono = "12";
         bd.InsertarUsuario(usuario);
 
         List<Usuario> usuarios = bd.ObtenerUsuarios();

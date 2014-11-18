@@ -33,11 +33,11 @@ public class DB extends SQLiteOpenHelper {
     }
 
     // Sentencia SQL para la creación de una tabla
-    private static final String TABLA_USUARIO = "CREATE TABLE Usuario " + "( id INTEGER PRIMARY KEY AUTOINCREMENT, Nombre TEXT, Email TEXT, Telefono INTEGER, Pass TEXT)";
-    private static final String TABLA_PROYECTO = "CREATE TABLE Proyecto " + "( id INTEGER PRIMARY KEY AUTOINCREMENT, Nombre TEXT, Descripcion TEXT, UsuarioCreador INTEGER, FechaCreacion DATETIME DEFAULT CURRENT_TIMESTAMP)";
-    private static final String TABLA_MINUTA = "CREATE TABLE Minuta " + "( id INTEGER PRIMARY KEY AUTOINCREMENT, Titulo TEXT, Cliente TEXT, Lugar TEXT, FechaCreacion DATETIME DEFAULT CURRENT_TIMESTAMP, IdProyecto INTEGER, IdUsuario INTEGER)";
-    private static final String TABLA_ASISTENTE = "CREATE TABLE Asistente " + "( id INTEGER PRIMARY KEY AUTOINCREMENT, Email TEXT, Nombre TEXT, FechaCreacion DATETIME DEFAULT CURRENT_TIMESTAMP)";
-    private static final String TABLA_ASISTENTEMINUTA = "CREATE TABLE AsistenteMinuta " + "( id INTEGER PRIMARY KEY AUTOINCREMENT, IdMinuta INTEGER, IdAsistente INTEGER)";
+    private static final String TABLA_USUARIO = "CREATE TABLE Usuario " + "( id TEXT, Nombre TEXT, Email TEXT, Telefono TEXT, Pass TEXT, idAux INTEGER PRIMARY KEY AUTOINCREMENT)";
+    private static final String TABLA_PROYECTO = "CREATE TABLE Proyecto " + "( id TEXT, Nombre TEXT, Descripcion TEXT, UsuarioCreador INTEGER, FechaCreacion DATETIME DEFAULT CURRENT_TIMESTAMP, idAux INTEGER PRIMARY KEY AUTOINCREMENT)";
+    private static final String TABLA_MINUTA = "CREATE TABLE Minuta " + "( id TEXT, Titulo TEXT, Cliente TEXT, Lugar TEXT, FechaCreacion DATETIME DEFAULT CURRENT_TIMESTAMP, IdProyecto INTEGER, IdUsuario INTEGER, idAux INTEGER PRIMARY KEY AUTOINCREMENT)";
+    private static final String TABLA_ASISTENTE = "CREATE TABLE Asistente " + "( id TEXT, Email TEXT, Nombre TEXT, FechaCreacion DATETIME DEFAULT CURRENT_TIMESTAMP, idAux INTEGER PRIMARY KEY AUTOINCREMENT)";
+    private static final String TABLA_ASISTENTEMINUTA = "CREATE TABLE AsistenteMinuta " + "( id TEXT, IdMinuta INTEGER, IdAsistente INTEGER, idAux INTEGER PRIMARY KEY AUTOINCREMENT)";
 
     @Override
     public void onCreate(SQLiteDatabase db) {
@@ -73,7 +73,7 @@ public class DB extends SQLiteOpenHelper {
         return false;
     }
 
-    public boolean EliminarUsuario(int idUsuario) {
+    public boolean EliminarUsuario(String idUsuario) {
         try {
             SQLiteDatabase db = getWritableDatabase();
             db.delete("Usuario", "id=" + idUsuario, null);
@@ -110,15 +110,16 @@ public class DB extends SQLiteOpenHelper {
         try {
             SQLiteDatabase db = getWritableDatabase();
 
-            String[] valores_recuperar = {"id", "nombre", "email", "telefono"};
+            String[] valores_recuperar = {"id", "nombre", "email", "telefono", "pass"};
             Cursor c = db.query("Usuario", valores_recuperar, null, null, null, null, null, null);
             c.moveToFirst();
             do {
                 Usuario usuario = new Usuario();
-                usuario.Id = c.getInt(0);
+                usuario.Id = c.getString(0);
                 usuario.Nombre = c.getString(1);
                 usuario.Email = c.getString(2);
-                usuario.Telefono = c.getInt(3);
+                usuario.Telefono = c.getString(3);
+                usuario.Pass = c.getString(4);
                 lista_usuarios.add(usuario);
             } while (c.moveToNext());
             db.close();
@@ -128,6 +129,32 @@ public class DB extends SQLiteOpenHelper {
             Log.e("ErrorConsultarUsuarios: ", e.getMessage());
         }
         return lista_usuarios;
+    }
+
+    public Usuario ObtenerUsuario(String user, String pass){
+        Usuario usuario = null;
+        try {
+            SQLiteDatabase db = getWritableDatabase();
+
+            String[] valores_recuperar = {"id", "nombre", "email", "telefono", "Pass"};
+            Cursor c = db.query("Usuario", valores_recuperar, "email = '"+user+"' AND pass = '" + pass + "'", null, null, null, null, null);
+            if(c != null) {
+                c.moveToNext();
+Log.i("Cuantos: ", String.valueOf(c.getCount()));
+                usuario = new Usuario();
+                usuario.Id = c.getString(0);
+                usuario.Nombre = c.getString(1);
+                usuario.Email = c.getString(2);
+                usuario.Telefono = c.getString(3);
+                usuario.Pass = c.getString(4);
+            }
+            db.close();
+            c.close();
+        }
+        catch (Exception e){
+            Log.e("ErrorConsultarUsuario: ", e.getMessage());
+        }
+        return usuario;
     }
 
     /*
@@ -222,7 +249,7 @@ public class DB extends SQLiteOpenHelper {
             c.moveToFirst();
             do {
                 Minuta minuta = new Minuta();
-                minuta.Id = c.getInt(0);
+                minuta.Id = c.getString(0);
                 minuta.Titulo = c.getString(1);
                 minuta.Cliente = c.getString(2);
                 minuta.Fecha = new Date(c.getString(3));
