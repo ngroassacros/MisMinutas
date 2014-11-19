@@ -107,6 +107,9 @@ public class Login extends ActionBarActivity {
     }
 
     public void login(View view) {
+        username = (EditText)findViewById(R.id.editText1);
+        password = (EditText)findViewById(R.id.editText2);
+
         if (username.getText().toString().equals("admin") &&
                 password.getText().toString().equals("admin")) {
             Toast.makeText(getApplicationContext(), "Redirecting...",

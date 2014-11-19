@@ -132,29 +132,20 @@ public class DB extends SQLiteOpenHelper {
     }
 
     public Usuario ObtenerUsuario(String user, String pass){
-        Usuario usuario = null;
         try {
-            SQLiteDatabase db = getWritableDatabase();
+            List<Usuario> listaUsuarios = this.ObtenerUsuarios();
 
-            String[] valores_recuperar = {"id", "nombre", "email", "telefono", "Pass"};
-            Cursor c = db.query("Usuario", valores_recuperar, "email = '"+user+"' AND pass = '" + pass + "'", null, null, null, null, null);
-            if(c != null) {
-                c.moveToNext();
-Log.i("Cuantos: ", String.valueOf(c.getCount()));
-                usuario = new Usuario();
-                usuario.Id = c.getString(0);
-                usuario.Nombre = c.getString(1);
-                usuario.Email = c.getString(2);
-                usuario.Telefono = c.getString(3);
-                usuario.Pass = c.getString(4);
+            for (Usuario usuarioItem : listaUsuarios) {
+                if(usuarioItem.Email == user && usuarioItem.Pass == pass){
+                    Log.i("USUARIO: ", usuarioItem.Email);
+                    return usuarioItem;
+                }
             }
-            db.close();
-            c.close();
         }
         catch (Exception e){
             Log.e("ErrorConsultarUsuario: ", e.getMessage());
         }
-        return usuario;
+        return null;
     }
 
     /*
