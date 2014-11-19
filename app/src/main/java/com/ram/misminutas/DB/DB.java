@@ -112,16 +112,17 @@ public class DB extends SQLiteOpenHelper {
 
             String[] valores_recuperar = {"id", "nombre", "email", "telefono", "pass"};
             Cursor c = db.query("Usuario", valores_recuperar, null, null, null, null, null, null);
-            c.moveToFirst();
-            do {
-                Usuario usuario = new Usuario();
-                usuario.Id = c.getString(0);
-                usuario.Nombre = c.getString(1);
-                usuario.Email = c.getString(2);
-                usuario.Telefono = c.getString(3);
-                usuario.Pass = c.getString(4);
-                lista_usuarios.add(usuario);
-            } while (c.moveToNext());
+            if(c.moveToFirst()) {
+                do {
+                    Usuario usuario = new Usuario();
+                    usuario.Id = c.getString(0);
+                    usuario.Nombre = c.getString(1);
+                    usuario.Email = c.getString(2);
+                    usuario.Telefono = c.getString(3);
+                    usuario.Pass = c.getString(4);
+                    lista_usuarios.add(usuario);
+                } while (c.moveToNext());
+            }
             db.close();
             c.close();
         }
@@ -182,16 +183,17 @@ public class DB extends SQLiteOpenHelper {
 
             String[] valores_recuperar = {"id", "Nombre", "Descripcion", "FechaCreacion", "UsuarioCreador"};
             Cursor c = db.query("Proyecto", valores_recuperar, null, null, null, null, null, null);
-            c.moveToFirst();
-            do {
-                Proyecto proyecto = new Proyecto();
-                proyecto.Id = c.getInt(0);
-                proyecto.Nombre = c.getString(1);
-                proyecto.Descripcion = c.getString(2);
-                proyecto.FechaCreacion = new Date(c.getString(3));
-                proyecto.UsuarioCreador = c.getInt(4);
-                lista_proyectos.add(proyecto);
-            } while (c.moveToNext());
+            if(c.moveToFirst()) {
+                do {
+                    Proyecto proyecto = new Proyecto();
+                    proyecto.Id = c.getInt(0);
+                    proyecto.Nombre = c.getString(1);
+                    proyecto.Descripcion = c.getString(2);
+                    proyecto.FechaCreacion = new Date(c.getString(3));
+                    proyecto.UsuarioCreador = c.getInt(4);
+                    lista_proyectos.add(proyecto);
+                } while (c.moveToNext());
+            }
             db.close();
             c.close();
         }
@@ -237,18 +239,19 @@ public class DB extends SQLiteOpenHelper {
 
             String[] valores_recuperar = {"id", "Titulo", "Cliente", "FechaCreacion", "Lugar", "IdUsuario", "IdProyecto"};
             Cursor c = db.query("Minuta", valores_recuperar, null, null, null, null, null, null);
-            c.moveToFirst();
-            do {
-                Minuta minuta = new Minuta();
-                minuta.Id = c.getString(0);
-                minuta.Titulo = c.getString(1);
-                minuta.Cliente = c.getString(2);
-                minuta.Fecha = new Date(c.getString(3));
-                minuta.Lugar = c.getString(4);
-                minuta.IdUsuario = c.getInt(5);
-                minuta.IdProyecto = c.getInt(6);
-                lista_minutas.add(minuta);
-            } while (c.moveToNext());
+            if(c.moveToFirst()) {
+                do {
+                    Minuta minuta = new Minuta();
+                    minuta.Id = c.getString(0);
+                    minuta.Titulo = c.getString(1);
+                    minuta.Cliente = c.getString(2);
+                    minuta.Fecha = new Date(c.getString(3));
+                    minuta.Lugar = c.getString(4);
+                    minuta.IdUsuario = c.getInt(5);
+                    minuta.IdProyecto = c.getInt(6);
+                    lista_minutas.add(minuta);
+                } while (c.moveToNext());
+            }
             db.close();
             c.close();
         }
