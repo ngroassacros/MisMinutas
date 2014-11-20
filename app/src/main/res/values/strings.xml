@@ -9,5 +9,6 @@
     <string name="Login">Iniciar Sesión</string>
     <string name="title_activity_minutas">Minutas</string>
     <string name="title_activity_menu">Menu</string>
-
+    <string name="TituloAlerta">Alerta!!</string>
+    <string name="MensajeLoginWifi">El usuario no fue encontrado en el equipo. Si es la primera vez que entra a la aplicacion, favor de encender su conexion Wifi y vuelva a intentarlo.</string>
 </resources>

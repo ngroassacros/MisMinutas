@@ -33,14 +33,14 @@ public class Minutas extends Activity {
         bd.InicializarBaseDeDatos();
 
         Usuario usuario = new Usuario();
-        usuario.Nombre = "Ramses Santos";
-        usuario.Email = "ranabdiel";
-        usuario.Telefono = "12";
+        usuario.nombre = "Ramses Santos";
+        usuario.email = "ranabdiel";
+        usuario.telefono = "12";
         bd.InsertarUsuario(usuario);
 
         List<Usuario> usuarios = bd.ObtenerUsuarios();
         for (Usuario user : usuarios){
-            Log.i("Usuarios: ", user.Nombre + " - " + user.Id);
+            Log.i("Usuarios: ", user.nombre + " - " + user.id);
         }
 
         Proyecto proy = new Proyecto();

@@ -59,9 +59,10 @@ public class DB extends SQLiteOpenHelper {
             SQLiteDatabase db = getWritableDatabase();
             if (db != null) {
                 ContentValues valores = new ContentValues();
-                valores.put("Nombre", usuario.Nombre);
-                valores.put("Telefono", usuario.Telefono);
-                valores.put("Email", usuario.Email);
+                valores.put("Nombre", usuario.nombre);
+                valores.put("Telefono", usuario.telefono);
+                valores.put("Email", usuario.email);
+                valores.put("Pass", usuario.pass);
                 db.insert("Usuario", null, valores);
                 db.close();
                 return true;
@@ -91,10 +92,10 @@ public class DB extends SQLiteOpenHelper {
             SQLiteDatabase db = getWritableDatabase();
             if (db != null) {
                 ContentValues valores = new ContentValues();
-                valores.put("Nombre", usuario.Nombre);
-                valores.put("Telefono", usuario.Telefono);
-                valores.put("Email", usuario.Email);
-                db.update("Usuario", valores, "id=" + usuario.Id, null);
+                valores.put("Nombre", usuario.nombre);
+                valores.put("Telefono", usuario.telefono);
+                valores.put("Email", usuario.email);
+                db.update("Usuario", valores, "id=" + usuario.id, null);
                 db.close();
                 return true;
             }
@@ -115,11 +116,11 @@ public class DB extends SQLiteOpenHelper {
             if(c.moveToFirst()) {
                 do {
                     Usuario usuario = new Usuario();
-                    usuario.Id = c.getString(0);
-                    usuario.Nombre = c.getString(1);
-                    usuario.Email = c.getString(2);
-                    usuario.Telefono = c.getString(3);
-                    usuario.Pass = c.getString(4);
+                    usuario.id = c.getString(0);
+                    usuario.nombre = c.getString(1);
+                    usuario.email = c.getString(2);
+                    usuario.telefono = c.getString(3);
+                    usuario.pass = c.getString(4);
                     lista_usuarios.add(usuario);
                 } while (c.moveToNext());
             }
@@ -133,20 +134,23 @@ public class DB extends SQLiteOpenHelper {
     }
 
     public Usuario ObtenerUsuario(String user, String pass){
+        Usuario usuario = null;
+
         try {
             List<Usuario> listaUsuarios = this.ObtenerUsuarios();
 
             for (Usuario usuarioItem : listaUsuarios) {
-                if(usuarioItem.Email == user && usuarioItem.Pass == pass){
-                    Log.i("USUARIO: ", usuarioItem.Email);
-                    return usuarioItem;
+                if(usuarioItem.email.equals(user) && usuarioItem.pass.equals(pass)){
+                    usuario = usuarioItem;
+                    break;
                 }
             }
         }
         catch (Exception e){
             Log.e("ErrorConsultarUsuario: ", e.getMessage());
+            usuario = null;
         }
-        return null;
+        return usuario;
     }
 
     /*

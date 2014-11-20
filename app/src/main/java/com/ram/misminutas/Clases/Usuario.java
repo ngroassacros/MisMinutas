@@ -5,9 +5,9 @@ package com.ram.misminutas.Clases;
  */
 public class Usuario
 {
-    public String Id;
-    public String Pass;
-    public String Nombre;
-    public String Email;
-    public String Telefono;
+    public String id;
+    public String pass;
+    public String nombre;
+    public String email;
+    public String telefono;
 }
