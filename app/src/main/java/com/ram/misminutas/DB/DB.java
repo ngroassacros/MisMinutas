@@ -33,11 +33,11 @@ public class DB extends SQLiteOpenHelper {
     }
 
     // Sentencia SQL para la creación de una tabla
-    private static final String TABLA_USUARIO = "CREATE TABLE Usuario " + "( id INTEGER PRIMARY KEY AUTOINCREMENT, Nombre TEXT, Email TEXT, Telefono INTEGER, Pass TEXT)";
-    private static final String TABLA_PROYECTO = "CREATE TABLE Proyecto " + "( id INTEGER PRIMARY KEY AUTOINCREMENT, Nombre TEXT, Descripcion TEXT, UsuarioCreador INTEGER, FechaCreacion DATETIME DEFAULT CURRENT_TIMESTAMP)";
-    private static final String TABLA_MINUTA = "CREATE TABLE Minuta " + "( id INTEGER PRIMARY KEY AUTOINCREMENT, Titulo TEXT, Cliente TEXT, Lugar TEXT, FechaCreacion DATETIME DEFAULT CURRENT_TIMESTAMP, IdProyecto INTEGER, IdUsuario INTEGER)";
-    private static final String TABLA_ASISTENTE = "CREATE TABLE Asistente " + "( id INTEGER PRIMARY KEY AUTOINCREMENT, Email TEXT, Nombre TEXT, FechaCreacion DATETIME DEFAULT CURRENT_TIMESTAMP)";
-    private static final String TABLA_ASISTENTEMINUTA = "CREATE TABLE AsistenteMinuta " + "( id INTEGER PRIMARY KEY AUTOINCREMENT, IdMinuta INTEGER, IdAsistente INTEGER)";
+    private static final String TABLA_USUARIO = "CREATE TABLE Usuario " + "( id TEXT, Nombre TEXT, Email TEXT, Telefono TEXT, Pass TEXT, idAux INTEGER PRIMARY KEY AUTOINCREMENT)";
+    private static final String TABLA_PROYECTO = "CREATE TABLE Proyecto " + "( id TEXT, Nombre TEXT, Descripcion TEXT, UsuarioCreador INTEGER, FechaCreacion DATETIME DEFAULT CURRENT_TIMESTAMP, idAux INTEGER PRIMARY KEY AUTOINCREMENT)";
+    private static final String TABLA_MINUTA = "CREATE TABLE Minuta " + "( id TEXT, Titulo TEXT, Cliente TEXT, Lugar TEXT, FechaCreacion DATETIME DEFAULT CURRENT_TIMESTAMP, IdProyecto INTEGER, IdUsuario INTEGER, idAux INTEGER PRIMARY KEY AUTOINCREMENT)";
+    private static final String TABLA_ASISTENTE = "CREATE TABLE Asistente " + "( id TEXT, Email TEXT, Nombre TEXT, FechaCreacion DATETIME DEFAULT CURRENT_TIMESTAMP, idAux INTEGER PRIMARY KEY AUTOINCREMENT)";
+    private static final String TABLA_ASISTENTEMINUTA = "CREATE TABLE AsistenteMinuta " + "( id TEXT, IdMinuta INTEGER, IdAsistente INTEGER, idAux INTEGER PRIMARY KEY AUTOINCREMENT)";
 
     @Override
     public void onCreate(SQLiteDatabase db) {
@@ -59,9 +59,10 @@ public class DB extends SQLiteOpenHelper {
             SQLiteDatabase db = getWritableDatabase();
             if (db != null) {
                 ContentValues valores = new ContentValues();
-                valores.put("Nombre", usuario.Nombre);
-                valores.put("Telefono", usuario.Telefono);
-                valores.put("Email", usuario.Email);
+                valores.put("Nombre", usuario.nombre);
+                valores.put("Telefono", usuario.telefono);
+                valores.put("Email", usuario.email);
+                valores.put("Pass", usuario.pass);
                 db.insert("Usuario", null, valores);
                 db.close();
                 return true;
@@ -73,7 +74,7 @@ public class DB extends SQLiteOpenHelper {
         return false;
     }
 
-    public boolean EliminarUsuario(int idUsuario) {
+    public boolean EliminarUsuario(String idUsuario) {
         try {
             SQLiteDatabase db = getWritableDatabase();
             db.delete("Usuario", "id=" + idUsuario, null);
@@ -91,10 +92,10 @@ public class DB extends SQLiteOpenHelper {
             SQLiteDatabase db = getWritableDatabase();
             if (db != null) {
                 ContentValues valores = new ContentValues();
-                valores.put("Nombre", usuario.Nombre);
-                valores.put("Telefono", usuario.Telefono);
-                valores.put("Email", usuario.Email);
-                db.update("Usuario", valores, "id=" + usuario.Id, null);
+                valores.put("Nombre", usuario.nombre);
+                valores.put("Telefono", usuario.telefono);
+                valores.put("Email", usuario.email);
+                db.update("Usuario", valores, "id=" + usuario.id, null);
                 db.close();
                 return true;
             }
@@ -110,17 +111,19 @@ public class DB extends SQLiteOpenHelper {
         try {
             SQLiteDatabase db = getWritableDatabase();
 
-            String[] valores_recuperar = {"id", "nombre", "email", "telefono"};
+            String[] valores_recuperar = {"id", "nombre", "email", "telefono", "pass"};
             Cursor c = db.query("Usuario", valores_recuperar, null, null, null, null, null, null);
-            c.moveToFirst();
-            do {
-                Usuario usuario = new Usuario();
-                usuario.Id = c.getInt(0);
-                usuario.Nombre = c.getString(1);
-                usuario.Email = c.getString(2);
-                usuario.Telefono = c.getInt(3);
-                lista_usuarios.add(usuario);
-            } while (c.moveToNext());
+            if(c.moveToFirst()) {
+                do {
+                    Usuario usuario = new Usuario();
+                    usuario.id = c.getString(0);
+                    usuario.nombre = c.getString(1);
+                    usuario.email = c.getString(2);
+                    usuario.telefono = c.getString(3);
+                    usuario.pass = c.getString(4);
+                    lista_usuarios.add(usuario);
+                } while (c.moveToNext());
+            }
             db.close();
             c.close();
         }
@@ -128,6 +131,26 @@ public class DB extends SQLiteOpenHelper {
             Log.e("ErrorConsultarUsuarios: ", e.getMessage());
         }
         return lista_usuarios;
+    }
+
+    public Usuario ObtenerUsuario(String user, String pass){
+        Usuario usuario = null;
+
+        try {
+            List<Usuario> listaUsuarios = this.ObtenerUsuarios();
+
+            for (Usuario usuarioItem : listaUsuarios) {
+                if(usuarioItem.email.equals(user) && usuarioItem.pass.equals(pass)){
+                    usuario = usuarioItem;
+                    break;
+                }
+            }
+        }
+        catch (Exception e){
+            Log.e("ErrorConsultarUsuario: ", e.getMessage());
+            usuario = null;
+        }
+        return usuario;
     }
 
     /*
@@ -164,16 +187,17 @@ public class DB extends SQLiteOpenHelper {
 
             String[] valores_recuperar = {"id", "Nombre", "Descripcion", "FechaCreacion", "UsuarioCreador"};
             Cursor c = db.query("Proyecto", valores_recuperar, null, null, null, null, null, null);
-            c.moveToFirst();
-            do {
-                Proyecto proyecto = new Proyecto();
-                proyecto.Id = c.getInt(0);
-                proyecto.Nombre = c.getString(1);
-                proyecto.Descripcion = c.getString(2);
-                proyecto.FechaCreacion = new Date(c.getString(3));
-                proyecto.UsuarioCreador = c.getInt(4);
-                lista_proyectos.add(proyecto);
-            } while (c.moveToNext());
+            if(c.moveToFirst()) {
+                do {
+                    Proyecto proyecto = new Proyecto();
+                    proyecto.Id = c.getInt(0);
+                    proyecto.Nombre = c.getString(1);
+                    proyecto.Descripcion = c.getString(2);
+                    proyecto.FechaCreacion = new Date(c.getString(3));
+                    proyecto.UsuarioCreador = c.getInt(4);
+                    lista_proyectos.add(proyecto);
+                } while (c.moveToNext());
+            }
             db.close();
             c.close();
         }
@@ -219,18 +243,19 @@ public class DB extends SQLiteOpenHelper {
 
             String[] valores_recuperar = {"id", "Titulo", "Cliente", "FechaCreacion", "Lugar", "IdUsuario", "IdProyecto"};
             Cursor c = db.query("Minuta", valores_recuperar, null, null, null, null, null, null);
-            c.moveToFirst();
-            do {
-                Minuta minuta = new Minuta();
-                minuta.Id = c.getInt(0);
-                minuta.Titulo = c.getString(1);
-                minuta.Cliente = c.getString(2);
-                minuta.Fecha = new Date(c.getString(3));
-                minuta.Lugar = c.getString(4);
-                minuta.IdUsuario = c.getInt(5);
-                minuta.IdProyecto = c.getInt(6);
-                lista_minutas.add(minuta);
-            } while (c.moveToNext());
+            if(c.moveToFirst()) {
+                do {
+                    Minuta minuta = new Minuta();
+                    minuta.Id = c.getString(0);
+                    minuta.Titulo = c.getString(1);
+                    minuta.Cliente = c.getString(2);
+                    minuta.Fecha = new Date(c.getString(3));
+                    minuta.Lugar = c.getString(4);
+                    minuta.IdUsuario = c.getInt(5);
+                    minuta.IdProyecto = c.getInt(6);
+                    lista_minutas.add(minuta);
+                } while (c.moveToNext());
+            }
             db.close();
             c.close();
         }

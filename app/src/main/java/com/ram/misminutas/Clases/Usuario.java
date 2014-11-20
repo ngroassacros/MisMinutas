@@ -5,12 +5,9 @@ package com.ram.misminutas.Clases;
  */
 public class Usuario
 {
-    @com.google.gson.annotations.SerializedName("Id")
-    public int Id;
-    @com.google.gson.annotations.SerializedName("Nombre")
-    public String Nombre;
-    @com.google.gson.annotations.SerializedName("Email")
-    public String Email;
-    @com.google.gson.annotations.SerializedName("Telefono")
-    public long Telefono;
+    public String id;
+    public String pass;
+    public String nombre;
+    public String email;
+    public String telefono;
 }
