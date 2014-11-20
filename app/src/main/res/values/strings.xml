@@ -8,5 +8,8 @@
     <string name="password">Password:</string>
     <string name="Login">Iniciar Sesión</string>
     <string name="title_activity_minutas">Minutas</string>
-
+    <string name="title_activity_proyectos">Proyectos</string>
+    <string name="aceptar">Aceptar</string>
+    <string name="cancelar">Cancelar</string>
+    <string name="title_activity_nuevoproyecto">Nuevo Proyecto</string>
 </resources>

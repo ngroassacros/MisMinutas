@@ -3,11 +3,17 @@ package com.ram.misminutas;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.ram.misminutas.Clases.Usuario;
+import com.ram.misminutas.DB.DB;
+
+import java.util.List;
 
 
 public class Login extends ActionBarActivity {
@@ -22,6 +28,16 @@ public class Login extends ActionBarActivity {
 
         username = (EditText)findViewById(R.id.editText1);
         password = (EditText)findViewById(R.id.editText2);
+
+        DB bd = new DB(getBaseContext());
+
+        //bd.InicializarBaseDeDatos();
+        //Usuario usuario = new Usuario();
+        //usuario.Nombre = "ADMINISTRADOR";
+        //usuario.Email = "admin";
+
+        //bd.InsertarUsuario(usuario);
+        //Log.i("Inserto","Usuario");
     }
 
 
@@ -48,17 +64,28 @@ public class Login extends ActionBarActivity {
     }
 
     public void login(View view) {
-        if (username.getText().toString().equals("admin") &&
-                password.getText().toString().equals("admin")) {
-            Toast.makeText(getApplicationContext(), "Redirecting...",
-                    Toast.LENGTH_SHORT).show();
-            Intent proyecto =  new Intent(Login.this, Minutas.class);
-            proyecto.putExtra("NombreUsuario", "Ramses Abdiel Santos Beltran");
-            proyecto.putExtra("Proyecto", "Proyecto1");
+        username = (EditText)findViewById(R.id.editText1);
+        password = (EditText)findViewById(R.id.editText2);
+
+        DB db = new DB(getBaseContext());
+        List<Usuario> listaUsuarios = db.ObtenerUsuarios();
+        Usuario usuario = null;
+
+        for(Usuario usuarioLista : listaUsuarios){
+            if(usuarioLista.Email.toString().equals(username.getText().toString())){
+                usuario = usuarioLista;
+            }
+        }
+
+        if(usuario != null){
+            Intent proyecto =  new Intent(Login.this, Proyectos.class);
+            proyecto.putExtra("Id",usuario.Id);
+            proyecto.putExtra("Nombre",usuario.Nombre);
+            proyecto.putExtra("Email",usuario.Email);
             startActivity(proyecto);
         }
         else {
-            Toast.makeText(getApplicationContext(), "Wrong Credentials",
+            Toast.makeText(getApplicationContext(), "Usuario Incorrecto",
                     Toast.LENGTH_SHORT).show();
         }
     }

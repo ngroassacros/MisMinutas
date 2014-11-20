@@ -7,7 +7,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.microsoft.windowsazure.mobileservices.*;
-import com.ram.misminutas.Clases.Minuta;
 import com.ram.misminutas.Clases.Proyecto;
 import com.ram.misminutas.Clases.Usuario;
 import com.ram.misminutas.DB.DB;
@@ -52,23 +51,10 @@ public class Minutas extends ActionBarActivity {
 
         List<Proyecto> proyectos = bd.ObtenerProyectos();
         for (Proyecto proyecto : proyectos){
-            Log.i("Proyectos: ", proyecto.Nombre + " - " + proyecto.FechaCreacion);
-        }
-
-        Minuta minuta = new Minuta();
-        minuta.Titulo = "Minuta de Estimacion";
-        minuta.Cliente = "SK";
-        minuta.Fecha = new Date(2010, 2, 20);
-        minuta.Lugar = "Terraza";
-        minuta.IdUsuario = 1;
-        minuta.IdProyecto = 1;
-        bd.InsertarMinuta(minuta);
-
-        List<Minuta> minutas = bd.ObtenerMinutas();
-        for (Minuta minut : minutas){
-            Log.i("Minutas: ", minut.Titulo + " - " + minut.Fecha.getDay() + " - " + minut.Fecha.getMonth() + " - " + minut.Fecha.getYear());
+            Log.i("Proyectos: ", proyecto.Nombre + " - " + proyecto.Id);
         }
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

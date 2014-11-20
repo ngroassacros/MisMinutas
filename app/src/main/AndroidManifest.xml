@@ -23,6 +23,18 @@
             android:name="com.ram.misminutas.Minutas"
             android:label="@string/title_activity_minutas" >
         </activity>
+        <activity
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"
+            android:name="com.ram.misminutas.Proyectos"
+            android:label="@string/title_activity_proyectos" >
+        </activity>
+        <activity
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"
+            android:name="com.ram.misminutas.NuevoProyecto"
+            android:label="@string/title_activity_nuevoproyecto" >
+        </activity>
     </application>
 
 </manifest>

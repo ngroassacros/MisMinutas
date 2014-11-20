@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="86dp"
+        android:layout_height="25dp"
+        android:text="Fecha:"
+        android:id="@+id/lblFecha"
+        android:layout_toStartOf="@android:id/text2"
+        android:layout_alignBottom="@android:id/text2"
+        android:layout_alignLeft="@+id/lblDescripcion"
+        android:layout_alignStart="@+id/lblDescripcion" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cancelar"
+        android:id="@android:id/button2"
+        android:layout_toEndOf="@android:id/button1"
+        android:layout_gravity="right|bottom"
+        android:layout_alignTop="@android:id/button1"
+        android:layout_toRightOf="@android:id/button1" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="170dp"
+        android:inputType="textMultiLine"
+        android:ems="10"
+        android:id="@android:id/edit"
+        android:minLines="7"
+        android:layout_below="@+id/lblDescripcion"
+        android:layout_gravity="center"
+        android:layout_alignRight="@android:id/text1"
+        android:layout_alignEnd="@android:id/text1"
+        android:layout_alignLeft="@+id/lblDescripcion"
+        android:layout_alignStart="@+id/lblDescripcion" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Aceptar"
+        android:id="@android:id/button1"
+        android:layout_toEndOf="@+id/lblDescripcion"
+        android:layout_gravity="center_horizontal|bottom"
+        android:layout_below="@android:id/edit"
+        android:layout_toRightOf="@+id/lblDescripcion" />
+
+    <EditText
+        android:layout_width="230dp"
+        android:layout_height="40dp"
+        android:id="@android:id/text1"
+        android:layout_toEndOf="@+id/lblDescripcion"
+        android:layout_gravity="right|top"
+        android:layout_marginTop="89dp"
+        android:layout_alignParentTop="true"/>
+
+    <EditText
+        android:layout_width="230dp"
+        android:layout_height="40dp"
+        android:id="@android:id/text2"
+        android:inputType="date"
+        android:ems="10"
+        android:layout_toEndOf="@+id/lblDescripcion"
+        android:layout_gravity="right|center_vertical"
+        android:layout_below="@android:id/text1"
+        android:layout_toRightOf="@+id/lblDescripcion" />
+
+    <TextView
+        android:layout_width="100dp"
+        android:layout_height="25dp"
+        android:text="Proyecto: "
+        android:id="@+id/lblProyecto"
+        android:layout_gravity="left|center_vertical"
+        android:layout_toStartOf="@android:id/text1"
+        android:layout_alignBottom="@android:id/text1"
+        android:layout_alignLeft="@+id/lblFecha"
+        android:layout_alignStart="@+id/lblFecha" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:text="Descripción:"
+        android:id="@+id/lblDescripcion"
+        android:layout_marginLeft="48dp"
+        android:layout_gravity="center_horizontal|top"
+        android:layout_below="@+id/lblFecha"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="47dp" />
+
+</RelativeLayout>
